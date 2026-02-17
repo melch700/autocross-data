@@ -1,0 +1,358 @@
+# ============================================================
+# AUTOCROSS DATA - .gitignore
+# Production-ready ignore patterns
+# ============================================================
+
+# === IDE & EDITOR FILES ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+desktop.ini
+
+# === NODE & NPM ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.npm
+.eslintcache
+
+# === BUILD & DIST ===
+dist/
+build/
+*.min.js
+*.min.css
+*.map
+
+# === OS SPECIFIC ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+*.bak
+*.tmp
+
+# === ENVIRONMENT & SECRETS ===
+.env
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+.env.test.local
+
+# === LOGS ===
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+# === TEMPORARY FILES ===
+temp/
+tmp/
+*.temp
+*.cache
+
+# === BACKUP FILES ===
+*.backup
+*.old
+*.orig
+*.bak~
+*~
+
+# === BROWSER DATA ===
+.cache/
+.browserslistrc
+
+# === GIT ===
+.git/
+.gitmodules
+.gitattributes
+
+# === DEPENDENCY MANAGERS ===
+Gemfile.lock
+Pipfile.lock
+poetry.lock
+
+# === TESTING ===
+coverage/
+.nyc_output/
+.pytest_cache/
+.coverage
+
+# === DOCKER ===
+docker-compose.override.yml
+.dockerignore
+
+# === CI/CD ===
+.github/workflows/temp*
+.gitlab-ci.local.yml
+.travis.yml.bak
+
+# === VSCODE SPECIFIC ===
+.vscode/launch.json
+.vscode/extensions.json
+*.code-workspace
+
+# === JetBrains IDEs ===
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# === SUBLIME TEXT ===
+*.sublime-project
+*.sublime-workspace
+sftp-config.json
+
+# === NOTEPAD++ ===
+.nppBackup
+
+# === EMACS ===
+*~
+\#*\#
+.\#*
+
+# === VIM ===
+.*.sw[a-z]
+*.un~
+Session.vim
+
+# === NETBEANS ===
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# === ECLIPSE ===
+.project
+.pydevproject
+.settings/
+.classpath
+
+# === INTELLIJ ===
+*.iml
+out/
+
+# === VAGRANT ===
+.vagrant/
+Vagrantfile.local
+
+# === SASS/SCSS ===
+.sass-cache/
+
+# === COMPASS ===
+.sass-cache
+*.compass.log
+
+# === LESS ===
+.less-cache
+
+# === GRUNT ===
+.grunt
+
+# === GULP ===
+node_modules/
+dist/
+
+# === BOWER ===
+bower_components/
+.bower-cache
+.bower-registry
+
+# === WEBPACK ===
+.webpack/
+dist/
+
+# === TYPESCRIPT ===
+*.js.map
+*.d.ts
+dist/
+build/
+
+# === PARCEL ===
+dist/
+.cache/
+
+# === VITE ===
+dist/
+.vite/
+
+# === NEXT.JS ===
+.next/
+out/
+.vercel
+
+# === NUXT ===
+.nuxt
+dist
+.cache/
+
+# === GATSBY ===
+.cache/
+public/
+
+# === HUGO ===
+/public/
+/resources/_gen/
+
+# === JEKYLL ===
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# === PYTHON ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# === RUBY ===
+*.gem
+*.rbc
+Gemfile.lock
+.ruby-version
+.ruby-gemset
+
+# === PHP ===
+vendor/
+composer.lock
+.php_cs.cache
+
+# === JAVA ===
+*.class
+*.jar
+*.war
+*.ear
+target/
+.classpath
+
+# === .NET ===
+bin/
+obj/
+*.dll
+*.pdb
+*.nupkg
+
+# === SWIFT ===
+xcuserdata/
+*.xcworkspace
+DerivedData/
+
+# === ANDROID ===
+.gradle/
+build/
+*.apk
+*.ap_
+*.dex
+
+# === IOS ===
+Pods/
+Podfile.lock
+.xcworkspace/
+
+# === MISC PROJECT FILES ===
+.DS_Store
+.env
+.env.local
+.env.*.local
+config.json
+secrets.json
+credentials.json
+private_key.json
+
+# === BACKUP & ARCHIVES ===
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bak
+*.backup
+*.old
+
+# === LARGE FILES ===
+*.iso
+*.dmg
+*.exe
+*.msi
+
+# === PERSONAL NOTES ===
+NOTES.md
+TODO.md
+personal/
+private/
+secret/
+
+# === DATABASE ===
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.bak
+
+# === LOCK FILES (optional - uncomment if needed) ===
+# package-lock.json
+# yarn.lock
+
+# === DOCUMENTATION BUILDS ===
+docs/_build/
+site/
+
+# === METRICS & MONITORING ===
+.metrics/
+.monitoring/
+analytics.json
+
+# === AUTOCROSS DATA SPECIFIC ===
+# Backup data
+data_backup/
+*.data.bak
+
+# Test data
+test_data/
+fixtures/
+
+# Exported but not needed in repo
+exports/
+*.csv.bak
+*.json.bak
+
+# Development configuration
+config.dev.json
+local.env
+
+# ============================================================
+# END .gitignore
+# ============================================================

@@ -1,0 +1,459 @@
+<!--
+  ╔═══════════════════════════════════════════════════════════════╗
+  ║                     AUTOCROSS DATA v1.0.0                     ║
+  ║         Progressive Web App for Motorsport Management         ║
+  ╚═══════════════════════════════════════════════════════════════╝
+  
+  MIT License - Copyright (c) 2026 AUTOCROSS DATA
+  See LICENSE file for full details
+  
+  Repository: https://github.com/melch700text/autocross-data
+  License: https://opensource.org/licenses/MIT
+  
+  Features:
+  • Complete CRUD operations (drivers & sessions)
+  • Real-time localStorage persistence
+  • Sortable tables with live filtering
+  • CSV/JSON export functionality
+  • Fully responsive design (mobile/tablet/desktop)
+  • Dark theme motorsport styling
+  • 100% Vanilla JavaScript (no frameworks)
+  • PWA-ready architecture
+  
+  Author: Motorsport Dev Team
+  Language: Dutch (NL)
+  Updated: 2026-02-17
+-->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="description" content="AUTOCROSS DATA - Volledige motorsport data management webapp">
+    <title>AUTOCROSS DATA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER / NAVIGATIE -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>🏁 AUTOCROSS DATA</h1>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+                <button class="nav-btn" data-tab="coureurs">Coureurs</button>
+                <button class="nav-btn" data-tab="sessies">Sessies</button>
+                <button class="nav-btn" data-tab="export">Export</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        
+        <!-- ============ DASHBOARD TAB ============ -->
+        <section id="dashboard-tab" class="tab-content active">
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-coureurs">0</div>
+                    <div class="stat-label">Coureurs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-sessies">0</div>
+                    <div class="stat-label">Sessies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-events">0</div>
+                    <div class="stat-label">Events</div>
+                </div>
+            </div>
+            <div class="recent-data">
+                <h3>Recente Sessies</h3>
+                <div id="recent-sessies-list"></div>
+            </div>
+        </section>
+
+        <!-- ============ COUREURS TAB ============ -->
+        <section id="coureurs-tab" class="tab-content">
+            <div class="tab-layout">
+                <!-- Linker: Tabel -->
+                <div class="table-section">
+                    <h2>Coureurs Overzicht</h2>
+                    <div class="search-bar">
+                        <input type="text" id="coureur-search" placeholder="Zoeken op naam of startnummer...">
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="coureurs-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th data-sortable="naam">Naam ↕</th>
+                                    <th data-sortable="startnummer">Startnr ↕</th>
+                                    <th data-sortable="klasse">Klasse ↕</th>
+                                    <th data-sortable="jarenErvaring">Ervaring ↕</th>
+                                    <th>Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coureurs-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Rechter: Formulier -->
+                <div class="form-section">
+                    <h2 id="coureur-form-title">Nieuwe Coureur</h2>
+                    <form id="coureur-form" class="data-form">
+                        <div class="form-group">
+                            <label for="coureur-naam">Naam *</label>
+                            <input type="text" id="coureur-naam" placeholder="Jan Jansen" required>
+                            <span class="validation-icon"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coureur-startnummer">Startnummer *</label>
+                            <input type="text" id="coureur-startnummer" placeholder="47" required>
+                            <span class="validation-icon"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coureur-team">Team</label>
+                            <input type="text" id="coureur-team" placeholder="Autosport Club Zwolle">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coureur-klasse">Klasse *</label>
+                            <select id="coureur-klasse" required>
+                                <option value="">-- Selecteer Klasse --</option>
+                                <option value="Klasse 1">Klasse 1</option>
+                                <option value="Klasse 2">Klasse 2</option>
+                                <option value="Klasse 3">Klasse 3</option>
+                                <option value="Klasse 4">Klasse 4</option>
+                                <option value="Klasse 5">Klasse 5</option>
+                                <option value="Open">Open</option>
+                            </select>
+                            <span class="validation-icon"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coureur-licentie">Licentienummer</label>
+                            <input type="text" id="coureur-licentie" placeholder="KNAF-123456">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coureur-ervaring">Jaren Ervaring</label>
+                            <input type="number" id="coureur-ervaring" min="0" max="50" placeholder="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coureur-gewicht">Gewicht (kg)</label>
+                            <input type="number" id="coureur-gewicht" min="40" max="150" placeholder="78">
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" id="coureur-btn-nieuw" class="btn btn-secondary">NIEUW</button>
+                            <button type="submit" id="coureur-btn-opslaan" class="btn btn-primary">OPSLAAN</button>
+                            <button type="button" id="coureur-btn-annuleren" class="btn btn-danger">ANNULEREN</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SESSIES TAB ============ -->
+        <section id="sessies-tab" class="tab-content">
+            <div class="tab-layout">
+                <!-- Linker: Tabel -->
+                <div class="table-section">
+                    <h2>Sessies Overzicht</h2>
+                    
+                    <div class="filters">
+                        <input type="text" id="sessie-event-filter" placeholder="Zoeken op event...">
+                        <select id="sessie-coureur-filter">
+                            <option value="">Alle Coureurs</option>
+                        </select>
+                        <select id="sessie-type-filter">
+                            <option value="">Alle Types</option>
+                            <option value="training">Training</option>
+                            <option value="manche1">Manche 1</option>
+                            <option value="manche2">Manche 2</option>
+                            <option value="manche3">Manche 3</option>
+                            <option value="finale">Finale</option>
+                        </select>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table id="sessies-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th data-sortable="datum">Datum ↕</th>
+                                    <th data-sortable="eventNaam">Event ↕</th>
+                                    <th data-sortable="coureurId">Coureur ↕</th>
+                                    <th data-sortable="sessieType">Type ↕</th>
+                                    <th>Start→Eind</th>
+                                    <th data-sortable="tijd">Tijd ↕</th>
+                                    <th>Banden</th>
+                                    <th>Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sessies-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Rechter: Formulier -->
+                <div class="form-section">
+                    <h2 id="sessie-form-title">Nieuwe Sessie</h2>
+                    <form id="sessie-form" class="data-form">
+                        <fieldset class="form-section-header">
+                            <legend>Event</legend>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="sessie-datum">Datum *</label>
+                                    <input type="date" id="sessie-datum" required>
+                                    <span class="validation-icon"></span>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-naam">Naam Event *</label>
+                                    <input type="text" id="sessie-naam" placeholder="Wintercup Marknesse" required>
+                                    <span class="validation-icon"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessie-locatie">Locatie</label>
+                                <input type="text" id="sessie-locatie" placeholder="Marknesse">
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form-section-header">
+                            <legend>Baan</legend>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="sessie-baan-type">Type *</label>
+                                    <select id="sessie-baan-type" required>
+                                        <option value="">-- Selecteer --</option>
+                                        <option value="klei">Klei</option>
+                                        <option value="zand">Zand</option>
+                                        <option value="gras">Gras</option>
+                                        <option value="asfalt">Asfalt</option>
+                                    </select>
+                                    <span class="validation-icon"></span>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-baan-conditie">Conditie *</label>
+                                    <select id="sessie-baan-conditie" required>
+                                        <option value="">-- Selecteer --</option>
+                                        <option value="nat">Nat</option>
+                                        <option value="droog">Droog</option>
+                                        <option value="los">Los</option>
+                                        <option value="zwaar">Zwaar</option>
+                                    </select>
+                                    <span class="validation-icon"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessie-baan-lengte">Baanlengte (m)</label>
+                                <input type="number" id="sessie-baan-lengte" min="100" max="5000" placeholder="850">
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form-section-header">
+                            <legend>Weer</legend>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="sessie-temp">Temperatuur (°C)</label>
+                                    <input type="number" id="sessie-temp" min="-10" max="40" placeholder="8">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-weer-type">Type</label>
+                                    <select id="sessie-weer-type">
+                                        <option value="">-- Selecteer --</option>
+                                        <option value="zon">Zon</option>
+                                        <option value="bewolkt">Bewolkt</option>
+                                        <option value="regen">Regen</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessie-wind">Wind</label>
+                                <select id="sessie-wind">
+                                    <option value="">-- Selecteer --</option>
+                                    <option value="rustig">Rustig</option>
+                                    <option value="matig">Matig</option>
+                                    <option value="hard">Hard</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form-section-header">
+                            <legend>Auto</legend>
+                            <div class="form-group">
+                                <label for="sessie-auto-klasse">Klasse</label>
+                                <select id="sessie-auto-klasse">
+                                    <option value="">-- Selecteer --</option>
+                                    <option value="Klasse 1">Klasse 1</option>
+                                    <option value="Klasse 2">Klasse 2</option>
+                                    <option value="Klasse 3">Klasse 3</option>
+                                    <option value="Klasse 4">Klasse 4</option>
+                                    <option value="Klasse 5">Klasse 5</option>
+                                    <option value="Open">Open</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="sessie-banden-type">Bandentype</label>
+                                    <input type="text" id="sessie-banden-type" placeholder="slicks">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-banden-merk">Bandenmerk</label>
+                                    <input type="text" id="sessie-banden-merk" placeholder="Pirelli">
+                                </div>
+                            </div>
+                            <div class="form-section-header">
+                                <legend>Bandenspanning (bar)</legend>
+                            </div>
+                            <div class="form-row tire-pressure">
+                                <div class="form-group flex-1">
+                                    <label for="sessie-banden-lf">LF</label>
+                                    <input type="number" id="sessie-banden-lf" step="0.1" min="0.8" max="2.5" placeholder="1.8">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-banden-rf">RF</label>
+                                    <input type="number" id="sessie-banden-rf" step="0.1" min="0.8" max="2.5" placeholder="1.8">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-banden-lr">LR</label>
+                                    <input type="number" id="sessie-banden-lr" step="0.1" min="0.8" max="2.5" placeholder="1.6">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-banden-rr">RR</label>
+                                    <input type="number" id="sessie-banden-rr" step="0.1" min="0.8" max="2.5" placeholder="1.6">
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form-section-header">
+                            <legend>Coureur & Sessie</legend>
+                            <div class="form-group">
+                                <label for="sessie-coureur">Coureur *</label>
+                                <select id="sessie-coureur" required>
+                                    <option value="">-- Selecteer Coureur --</option>
+                                </select>
+                                <span class="validation-icon"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessie-type">Type *</label>
+                                <select id="sessie-type" required>
+                                    <option value="">-- Selecteer Type --</option>
+                                    <option value="training">Training</option>
+                                    <option value="manche1">Manche 1</option>
+                                    <option value="manche2">Manche 2</option>
+                                    <option value="manche3">Manche 3</option>
+                                    <option value="finale">Finale</option>
+                                </select>
+                                <span class="validation-icon"></span>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="sessie-start">Startpositie</label>
+                                    <input type="number" id="sessie-start" min="1" max="100" placeholder="4">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="sessie-eind">Eindpositie</label>
+                                    <input type="number" id="sessie-eind" min="1" max="100" placeholder="2">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessie-tijd">Tijd (mm:ss.ss) *</label>
+                                <input type="text" id="sessie-tijd" placeholder="01:23.45" pattern="^\d{2}:\d{2}\.\d{2}$" required>
+                                <span class="validation-icon"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessie-notities">Notities</label>
+                                <textarea id="sessie-notities" placeholder="Goede start, spin in bocht 5" rows="3"></textarea>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-buttons">
+                            <button type="button" id="sessie-btn-nieuw" class="btn btn-secondary">NIEUW</button>
+                            <button type="submit" id="sessie-btn-opslaan" class="btn btn-primary">OPSLAAN</button>
+                            <button type="button" id="sessie-btn-bewerken" class="btn btn-info" style="display:none;">BEWERKEN</button>
+                            <button type="button" id="sessie-btn-verwijderen" class="btn btn-danger" style="display:none;">VERWIJDEREN</button>
+                            <button type="button" id="sessie-btn-annuleren" class="btn btn-secondary">ANNULEREN</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ EXPORT TAB ============ -->
+        <section id="export-tab" class="tab-content">
+            <div class="export-container">
+                <h2>Data Exporteren</h2>
+                <p>Download uw autocross data in CSV formaat voor verdere verwerking in Excel of andere tools.</p>
+                
+                <div class="export-options">
+                    <div class="export-card">
+                        <h3>📋 Coureurs Export</h3>
+                        <p>Exporteer alle coureurs gegevens</p>
+                        <button id="export-coureurs-btn" class="btn btn-primary">Download Coureurs CSV</button>
+                    </div>
+
+                    <div class="export-card">
+                        <h3>📊 Sessies Export</h3>
+                        <p>Exporteer alle sessies gegevens met resultaten</p>
+                        <button id="export-sessies-btn" class="btn btn-primary">Download Sessies CSV</button>
+                    </div>
+
+                    <div class="export-card">
+                        <h3>💾 Volledige Backup</h3>
+                        <p>Exporteer alles in JSON formaat</p>
+                        <button id="export-json-btn" class="btn btn-primary">Download JSON Backup</button>
+                    </div>
+                </div>
+
+                <div class="export-info">
+                    <h3>Export Informatie</h3>
+                    <p><strong>Datum:</strong> <span id="export-date"></span></p>
+                    <p><strong>Coureurs:</strong> <span id="export-coureur-count">0</span></p>
+                    <p><strong>Sessies:</strong> <span id="export-sessie-count">0</span></p>
+                    <p><strong>Bestandsnaam:</strong> autocross-data-YYYY-MM-DD.csv</p>
+                    <hr>
+                    <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 1rem;">
+                        <strong>Licentie:</strong> MIT License © 2026 AUTOCROSS DATA<br>
+                        Vrij gebruik onder de voorwaarden van de MIT-licentie
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LOADING SPINNER -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Aan het verwerken...</p>
+    </div>
+
+    <!-- CONFIRMATION DIALOG -->
+    <div id="confirm-dialog" class="modal">
+        <div class="modal-content">
+            <h3 id="confirm-title">Bevestiging</h3>
+            <p id="confirm-message"></p>
+            <div class="modal-buttons">
+                <button id="confirm-ok" class="btn btn-danger">Verwijderen</button>
+                <button id="confirm-cancel" class="btn btn-secondary">Annuleren</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div id="notification" class="notification"></div>
+
+    <!-- SCRIPTS -->
+    <script src="app.js"></script>
+</body>
+</html>
